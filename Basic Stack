@@ -1,0 +1,28 @@
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+        print(f"Pushed: {item}")
+
+    def pop(self):
+        if self.is_empty():
+            return "Stack is empty!"
+        return f"Popped: {self.stack.pop()}"
+
+    def peek(self):
+        if self.is_empty():
+            return "Stack is empty!"
+        return f"Top element: {self.stack[-1]}"
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
+# Execution
+s = Stack()
+s.push("Plate 1")
+s.push("Plate 2")
+print(s.peek())
+print(s.pop())
+print(s.pop())

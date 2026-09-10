@@ -1,0 +1,49 @@
+class CircularQueue:
+    def __init__(self, size):
+        self.size = size
+        self.queue = [None] * size
+        self.front = -1
+        self.rear = -1
+
+    def enqueue(self, item):
+        # Condition for queue being full
+        if ((self.rear + 1) % self.size == self.front):
+            print("Queue is full!")
+            return
+
+        # First element insertion
+        if (self.front == -1):
+            self.front = 0
+            self.rear = 0
+        else:
+            # Circularly increment rear index
+            self.rear = (self.rear + 1) % self.size
+            
+        self.queue[self.rear] = item
+        print(f"Enqueued into circle: {item}")
+
+    def dequeue(self):
+        # Condition for empty queue
+        if (self.front == -1):
+            return "Queue is empty!"
+
+        removed_data = self.queue[self.front]
+        
+        # Only one element was left in the queue
+        if (self.front == self.rear):
+            self.front = -1
+            self.rear = -1
+        else:
+            # Circularly increment front index
+            self.front = (self.front + 1) % self.size
+            
+        return f"Dequeued from circle: {removed_data}"
+
+# Execution
+cq = CircularQueue(3) # Max size of 3
+cq.enqueue(10)
+cq.enqueue(20)
+cq.enqueue(30)
+cq.enqueue(40)     # Prints: Queue is full!
+print(cq.dequeue()) # Removes 10, freeing index 0
+cq.enqueue(40)     # Works! 40 loops back to index 0 dynamically.

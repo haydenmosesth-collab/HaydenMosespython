@@ -1,0 +1,50 @@
+class AudioStreamingBuffer:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.buffer = [None] * capacity
+        self.front = -1
+        self.rear = -1
+
+    def receive_audio_chunk(self, packet_id):
+        # Check if buffer is full (Network lag / Player paused)
+        if ((self.rear + 1) % self.capacity == self.front):
+            print(f"Buffer Full! Dropping incoming packet {packet_id} to prevent overflow.")
+            return
+
+        if self.front == -1:
+            self.front = 0
+            self.rear = 0
+        else:
+            self.rear = (self.rear + 1) % self.capacity
+            
+        self.buffer[self.rear] = packet_id
+        print(f"[Network] Downloaded & buffered: {packet_id}")
+
+    def play_audio_chunk(self):
+        if self.front == -1:
+            print("Buffer Empty! Audio stuttering... waiting for network.")
+            return
+
+        played_packet = self.buffer[self.front]
+        print(f"[Speaker] Playing: {played_packet}")
+
+        if self.front == self.rear:
+            self.front = -1
+            self.rear = -1
+        else:
+            self.front = (self.front + 1) % self.capacity
+
+# Simulation (Buffer size of 3 packets)
+stream = AudioStreamingBuffer(3)
+
+print("--- Network downloads initial data ---")
+stream.receive_audio_chunk("Audio_Sec_01")
+stream.receive_audio_chunk("Audio_Sec_02")
+stream.receive_audio_chunk("Audio_Sec_03")
+stream.receive_audio_chunk("Audio_Sec_04") # Fails safely because buffer is full
+
+print("\n--- User listens to the music ---")
+stream.play_audio_chunk() # Plays Sec_01, freeing up slot index 0
+
+print("\n--- Network automatically fills the freed slot circularly ---")
+stream.receive_audio_chunk("Audio_Sec_04") # Succeeds now! Loops back to index 0

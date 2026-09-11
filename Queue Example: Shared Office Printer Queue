@@ -1,0 +1,27 @@
+from collections import deque
+
+class OfficePrinter:
+    def __init__(self):
+        self.print_jobs = deque()
+
+    def send_to_printer(self, document_name):
+        self.print_jobs.append(document_name)
+        print(f"Job added: '{document_name}' is waiting in line.")
+
+    def print_next_document(self):
+        if not self.print_jobs:
+            print("No documents in the queue. Printer idle.")
+            return
+        # Dequeue the oldest document
+        current_job = self.print_jobs.popleft()
+        print(f"[Printing] Now printing: '{current_job}'")
+
+# Simulation
+printer = OfficePrinter()
+printer.send_to_printer("Q3_Financials.pdf")
+printer.send_to_printer("Resume_Draft.docx")
+printer.send_to_printer("FamilyPhoto.jpg")
+
+print("\n--- Printer starts working ---")
+printer.print_next_document()
+printer.print_next_document()

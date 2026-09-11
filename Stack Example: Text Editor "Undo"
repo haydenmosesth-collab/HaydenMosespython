@@ -1,0 +1,25 @@
+class TextEditorUndoSystem:
+    def __init__(self):
+        self.history_stack = []
+
+    def type_text(self, text):
+        self.history_stack.append(text)
+        print(f"Typed: \"{text}\"")
+
+    def undo(self):
+        if not self.history_stack:
+            print("Nothing to undo!")
+            return
+        # Pop the latest text modification off the stack
+        last_action = self.history_stack.pop()
+        print(f"[Undo Action] Removed: \"{last_action}\"")
+
+# Simulation
+editor = TextEditorUndoSystem()
+editor.type_text("Hello ")
+editor.type_text("Hello World")
+editor.type_text("Hello World!")
+
+print("\n--- User presses Ctrl+Z twice ---")
+editor.undo()
+editor.undo()

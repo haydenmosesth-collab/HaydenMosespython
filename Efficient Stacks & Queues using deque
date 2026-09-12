@@ -1,0 +1,17 @@
+from collections import deque
+
+# --- Stack (LIFO: Last In, First Out) ---
+stack = deque()
+stack.append(10)
+stack.append(20)
+stack.append(30)
+
+print("Popped from stack:", stack.pop())  # Output: 30
+
+# --- Queue (FIFO: First In, First Out) ---
+queue = deque()
+queue.append("Alice")
+queue.append("Bob")
+queue.append("Charlie")
+
+print("Served from queue:", queue.popleft())  # Output: Alice

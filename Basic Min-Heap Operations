@@ -1,0 +1,18 @@
+import heapq
+
+# Initialize an empty list to act as our heap
+min_heap = []
+
+# Push elements into the heap
+heapq.heappush(min_heap, 40)
+heapq.heappush(min_heap, 10)
+heapq.heappush(min_heap, 30)
+heapq.heappush(min_heap, 20)
+
+print("Heap after pushes:", min_heap) 
+# Output: [10, 20, 30, 40] (Notice 10 is at the root/index 0)
+
+# Pop the smallest element
+smallest = heapq.heappop(min_heap)
+print("Popped smallest element:", smallest)  # Output: 10
+print("Heap after pop:", min_heap)          # Output: [20, 40, 30]

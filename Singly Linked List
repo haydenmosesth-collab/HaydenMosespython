@@ -1,0 +1,50 @@
+class Node:
+    """Represents a single node in the linked list."""
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class SinglyLinkedList:
+    """Manages the linked list operations."""
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        """Adds a new node with data to the end of the list."""
+        new_node = Node(data)
+        
+        # If the list is empty, make the new node the head
+        if not self.head:
+            self.head = new_node
+            return
+        
+        # Otherwise, traverse to the last node
+        current = self.head
+        while current.next:
+            current = current.next
+        
+        # Link the new node at the end
+        current.next = new_node
+
+    def display(self):
+        """Prints the elements of the linked list."""
+        current = self.head
+        elements = []
+        while current:
+            elements.append(str(current.data))
+            current = current.next
+        print(" -> ".join(elements) + " -> None")
+
+# --- Example Usage ---
+if __name__ == "__main__":
+    # Create a new linked list
+    linked_list = SinglyLinkedList()
+
+    # Append elements
+    linked_list.append(10)
+    linked_list.append(20)
+    linked_list.append(30)
+
+    # Display the linked list
+    print("Linked List:")
+    linked_list.display()

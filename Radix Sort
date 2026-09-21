@@ -1,0 +1,59 @@
+def counting_sort_for_radix(arr, exp):
+    """
+    A stable helper function to sort the array based on the digit
+    represented by exp (10^i where i is the current digit position).
+    """
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10  # Base 10 for standard decimal numbers
+
+    # Store count of occurrences of each digit
+    for i in range(n):
+        index = arr[i] // exp
+        count[index % 10] += 1
+
+    # Change count[i] so that it contains the actual position of 
+    # this digit in the output array
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    # Build the output array (looping backwards to maintain stability)
+    i = n - 1
+    while i >= 0:
+        index = arr[i] // exp
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+        i -= 1
+
+    # Copy the sorted elements back into the original array
+    for i in range(0, len(arr)):
+        arr[i] = output[i]
+
+
+def radix_sort(arr):
+    """
+    The main Radix Sort function that sorts an array of integers.
+    """
+    if not arr:
+        return arr
+
+    # Find the maximum number to know the maximum number of digits
+    max_num = max(arr)
+
+    # Run counting sort for every digit. Instead of passing digit number, 
+    # exp is passed. exp is 10^i where i is current digit number.
+    exp = 1
+    while max_num // exp > 0:
+        counting_sort_for_radix(arr, exp)
+        exp *= 10
+    
+    return arr
+
+
+# --- Example Execution ---
+if __name__ == "__main__":
+    sample_data = [170, 45, 75, 90, 802, 24, 2, 66]
+    print("Original array:", sample_data)
+    
+    sorted_data = radix_sort(sample_data)
+    print("Sorted array:  ", sorted_data)

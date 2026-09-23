@@ -1,0 +1,32 @@
+stack = []
+SIZE = 10
+
+def push(x):
+    if len(stack) == SIZE:
+        print("Stack Overflow")
+    else:
+        stack.append(x)
+
+def pop():
+    if not stack:
+        print("Stack Underflow")
+    else:
+        print("Popped:", stack.pop())
+
+def peek():
+    if not stack:
+        print("Stack Underflow")
+    else:
+        print("Top:", stack[-1])
+
+def display():
+    print("Stack:", *stack[::-1])
+
+values = list(map(int, input("Enter values: ").split()))
+
+for x in values:
+    push(x)
+
+display()
+pop()
+display()

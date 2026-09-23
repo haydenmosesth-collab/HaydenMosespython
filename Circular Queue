@@ -1,0 +1,56 @@
+SIZE = 5
+queue = [0] * SIZE
+front = -1
+rear = -1
+
+def enqueue(x):
+    global front, rear
+
+    if (rear + 1) % SIZE == front:
+        print("Queue Full")
+        return
+
+    if front == -1:
+        front = rear = 0
+    else:
+        rear = (rear + 1) % SIZE
+
+    queue[rear] = x
+
+def dequeue():
+    global front, rear
+
+    if front == -1:
+        print("Queue Empty")
+        return
+
+    print("Dequeued:", queue[front])
+
+    if front == rear:
+        front = rear = -1
+    else:
+        front = (front + 1) % SIZE
+
+def display():
+    if front == -1:
+        print("Queue Empty")
+        return
+
+    i = front
+    while True:
+        print(queue[i], end=" ")
+        if i == rear:
+            break
+        i = (i + 1) % SIZE
+    print()
+
+for x in map(int, input("Enter values: ").split()):
+    enqueue(x)
+
+dequeue()
+dequeue()
+
+enqueue(6)
+enqueue(7)
+
+display()

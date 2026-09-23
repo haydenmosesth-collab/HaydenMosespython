@@ -1,0 +1,38 @@
+SIZE = 5
+queue = [0] * SIZE
+front = 0
+rear = -1
+
+def enqueue(x):
+    global rear
+    if rear == SIZE - 1:
+        print("Queue Full")
+    else:
+        rear += 1
+        queue[rear] = x
+
+def dequeue():
+    global front
+    if front > rear:
+        print("Queue Empty")
+    else:
+        print("Dequeued:", queue[front])
+        front += 1
+
+def display():
+    if front > rear:
+        print("Queue Empty")
+    else:
+        print("Queue:", *queue[front:rear + 1])
+
+for x in map(int, input("Enter values: ").split()):
+    enqueue(x)
+
+dequeue()
+dequeue()
+display()
+enqueue(6)
+display()
+
+# In a linear queue, rear cannot move backward.
+# Hence the freed positions at the front cannot be reused.

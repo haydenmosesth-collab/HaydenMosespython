@@ -1,0 +1,68 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+head = None
+
+def insert_begin(x):
+    global head
+    n = Node(x)
+    n.next = head
+    head = n
+
+def insert_end(x):
+    global head
+    n = Node(x)
+
+    if head is None:
+        head = n
+        return
+
+    p = head
+    while p.next:
+        p = p.next
+
+    p.next = n
+
+def display():
+    p = head
+    while p:
+        print(p.data, end=" ")
+        p = p.next
+    print()
+
+def count():
+    c = 0
+    p = head
+
+    while p:
+        c += 1
+        p = p.next
+
+    return c
+
+def search(key):
+    p = head
+    pos = 1
+
+    while p:
+        if p.data == key:
+            return pos
+        p = p.next
+        pos += 1
+
+    return -1
+
+values = list(map(int, input("Enter values: ").split()))
+
+for x in values:
+    insert_end(x)
+
+display()
+print("Count:", count())
+
+key = int(input("Enter key: "))
+pos = search(key)
+
+print("Position:", pos if pos != -1 else "Not found")

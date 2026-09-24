@@ -1,0 +1,33 @@
+def reverse_string(s):
+    stack = list(s)
+    result = ""
+
+    while stack:
+        result += stack.pop()
+
+    return result
+
+def palindrome(s):
+    return s == reverse_string(s)
+
+def balanced(expr):
+    stack = []
+    pairs = {')': '(', ']': '[', '}': '{'}
+
+    for ch in expr:
+        if ch in "([{":
+            stack.append(ch)
+        elif ch in ")]}":
+            if not stack or stack.pop() != pairs[ch]:
+                return False
+
+    return not stack
+
+s = input("Enter string: ")
+
+print("Reverse:", reverse_string(s))
+print("Palindrome:", "Yes" if palindrome(s) else "No")
+
+for _ in range(2):
+    expr = input("Enter expression: ")
+    print("Balanced" if balanced(expr) else "Not Balanced")

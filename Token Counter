@@ -1,0 +1,83 @@
+SIZE = 6
+queue = [0] * SIZE
+front = rear = -1
+history = []
+next_token = 1
+
+def enqueue(x):
+    global front, rear
+
+    if (rear + 1) % SIZE == front:
+        print("Queue Full")
+        return False
+
+    if front == -1:
+        front = rear = 0
+    else:
+        rear = (rear + 1) % SIZE
+
+    queue[rear] = x
+    return True
+
+def dequeue():
+    global front, rear
+
+    if front == -1:
+        print("Queue Empty")
+        return None
+
+    x = queue[front]
+
+    if front == rear:
+        front = rear = -1
+    else:
+        front = (front + 1) % SIZE
+
+    return x
+
+def display():
+    print("Waiting Queue:", end=" ")
+
+    if front == -1:
+        print("Empty")
+    else:
+        i = front
+        while True:
+            print(queue[i], end=" ")
+            if i == rear:
+                break
+            i = (i + 1) % SIZE
+        print()
+
+    print("Served History:", *history)
+
+commands = input("Enter commands: ").split()
+
+for cmd in commands:
+    if cmd == "ISSUE":
+        if enqueue(next_token):
+            print("Issued Token:", next_token)
+            next_token += 1
+
+    elif cmd == "SERVE":
+        token = dequeue()
+
+        if token is not None:
+            history.append(token)
+            print("Served Token:", token)
+
+    elif cmd == "CANCEL":
+        if history:
+            token = history.pop()
+
+            if not enqueue(token):
+                history.append(token)
+            else:
+                print("Cancelled Token:", token)
+        else:
+            print("No served token")
+
+    elif cmd == "DISPLAY":
+        display()
+
+display()

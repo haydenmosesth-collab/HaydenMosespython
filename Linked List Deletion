@@ -1,0 +1,85 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+head = None
+
+def delete_first():
+    global head
+
+    if head is None:
+        print("List is empty")
+        return
+
+    head = head.next
+
+def delete_last():
+    global head
+
+    if head is None:
+        print("List is empty")
+        return
+
+    if head.next is None:
+        head = None
+        return
+
+    p = head
+    while p.next.next:
+        p = p.next
+
+    p.next = None
+
+def delete_value(value):
+    global head
+
+    if head is None:
+        print("List is empty")
+        return
+
+    if head.data == value:
+        head = head.next
+        return
+
+    p = head
+
+    while p.next and p.next.data != value:
+        p = p.next
+
+    if p.next:
+        p.next = p.next.next
+
+def display():
+    p = head
+
+    while p:
+        print(p.data, end=" ")
+        p = p.next
+
+    print()
+
+values = list(map(int, input("Enter values: ").split()))
+
+for x in values:
+    n = Node(x)
+
+    if head is None:
+        head = n
+    else:
+        p = head
+        while p.next:
+            p = p.next
+        p.next = n
+
+display()
+
+delete_first()
+display()
+
+delete_last()
+display()
+
+value = int(input("Enter value to delete: "))
+delete_value(value)
+display()

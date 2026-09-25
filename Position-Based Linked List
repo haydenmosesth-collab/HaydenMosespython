@@ -1,0 +1,94 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+head = None
+
+def insert(pos, value):
+    global head
+
+    if pos < 1:
+        print("Invalid position")
+        return
+
+    n = Node(value)
+
+    if pos == 1:
+        n.next = head
+        head = n
+        return
+
+    p = head
+
+    for _ in range(pos - 2):
+        if p is None:
+            print("Invalid position")
+            return
+        p = p.next
+
+    if p is None:
+        print("Invalid position")
+        return
+
+    n.next = p.next
+    p.next = n
+
+def delete(pos):
+    global head
+
+    if head is None or pos < 1:
+        print("Invalid position")
+        return
+
+    if pos == 1:
+        head = head.next
+        return
+
+    p = head
+
+    for _ in range(pos - 2):
+        if p.next is None:
+            print("Invalid position")
+            return
+        p = p.next
+
+    if p.next is None:
+        print("Invalid position")
+        return
+
+    p.next = p.next.next
+
+def display():
+    p = head
+    while p:
+        print(p.data, end=" ")
+        p = p.next
+    print()
+
+for x in map(int, input("Enter initial values: ").split()):
+    insert(100000, x)  # append using traversal below
+
+# rebuild conveniently
+head = None
+values = list(map(int, input("Enter list values: ").split()))
+
+for x in values:
+    if head is None:
+        head = Node(x)
+    else:
+        p = head
+        while p.next:
+            p = p.next
+        p.next = Node(x)
+
+display()
+
+pos = int(input("Enter position: "))
+value = int(input("Enter value: "))
+insert(pos, value)
+display()
+
+pos = int(input("Enter position to delete: "))
+delete(pos)
+display()

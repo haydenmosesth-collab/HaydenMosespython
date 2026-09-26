@@ -1,0 +1,72 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def insert_sorted(head, value):
+    n = Node(value)
+
+    if head is None or value < head.data:
+        n.next = head
+        return n
+
+    p = head
+
+    while p.next and p.next.data < value:
+        p = p.next
+
+    n.next = p.next
+    p.next = n
+
+    return head
+
+def remove_duplicates(head):
+    p = head
+
+    while p and p.next:
+        if p.data == p.next.data:
+            p.next = p.next.next
+        else:
+            p = p.next
+
+    return head
+
+def display(head):
+    while head:
+        print(head.data, end=" ")
+        head = head.next
+    print()
+
+head = None
+
+for x in map(int, input("Enter values: ").split()):
+    head = insert_sorted(head, x)
+
+head = remove_duplicates(head)
+
+print("Sorted list:", end=" ")
+display(head)
+
+values2 = list(map(int, input("Enter second sorted list: ").split()))
+
+head2 = None
+
+for x in values2:
+    head2 = insert_sorted(head2, x)
+
+# Merge
+merged = None
+p = head
+
+while p:
+    merged = insert_sorted(merged, p.data)
+    p = p.next
+
+p = head2
+
+while p:
+    merged = insert_sorted(merged, p.data)
+    p = p.next
+
+print("Merged list:", end=" ")
+display(merged)

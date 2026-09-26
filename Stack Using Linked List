@@ -1,0 +1,47 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+top = None
+
+def push(x):
+    global top
+    n = Node(x)
+    n.next = top
+    top = n
+
+def pop():
+    global top
+
+    if top is None:
+        print("Stack Underflow")
+        return
+
+    print("Popped:", top.data)
+    top = top.next
+
+def peek():
+    if top is None:
+        print("Stack Underflow")
+    else:
+        print("Top:", top.data)
+
+def display():
+    p = top
+
+    while p:
+        print(p.data, end=" ")
+        p = p.next
+
+    print()
+
+for x in map(int, input("Enter values: ").split()):
+    push(x)
+
+display()
+pop()
+display()
+
+# Unlike an array stack, a linked stack has no fixed capacity.
+# Memory is allocated dynamically, so only Stack Underflow is an error.

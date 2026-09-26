@@ -1,0 +1,60 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+head = None
+
+values = list(map(int, input("Enter values: ").split()))
+
+for x in values:
+    n = Node(x)
+
+    if head is None:
+        head = n
+    else:
+        p = head
+        while p.next:
+            p = p.next
+        p.next = n
+
+def display():
+    p = head
+    while p:
+        print(p.data, end=" ")
+        p = p.next
+    print()
+
+def reverse():
+    global head
+
+    prev = None
+    curr = head
+
+    while curr:
+        nxt = curr.next
+        curr.next = prev
+        prev = curr
+        curr = nxt
+
+    head = prev
+
+def middle():
+    slow = head
+    fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    return slow.data if slow else None
+
+print("Before reversal:", end=" ")
+display()
+
+print("Middle:", middle())
+
+reverse()
+
+print("After reversal:", end=" ")
+display()

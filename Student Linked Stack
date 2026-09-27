@@ -1,0 +1,53 @@
+class Node:
+    def __init__(self, roll, name, mark):
+        self.roll = roll
+        self.name = name
+        self.mark = mark
+        self.next = None
+
+top = None
+
+def push(roll, name, mark):
+    global top
+
+    n = Node(roll, name, mark)
+    n.next = top
+    top = n
+
+def pop():
+    global top
+
+    if top:
+        print("Popped:", top.roll, top.name, top.mark)
+        top = top.next
+
+def display():
+    print("Roll\tName\tMark")
+
+    p = top
+
+    while p:
+        print(p.roll, "\t", p.name, "\t", p.mark)
+        p = p.next
+
+def highest():
+    if top is None:
+        return
+
+    p = top
+    best = top
+
+    while p:
+        if p.mark > best.mark:
+            best = p
+        p = p.next
+
+    print("Highest Mark:", best.roll, best.name, best.mark)
+
+for _ in range(2):
+    roll, name, mark = input("Enter roll name mark: ").split()
+    push(int(roll), name, int(mark))
+
+display()
+highest()
+pop()

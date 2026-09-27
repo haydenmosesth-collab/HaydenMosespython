@@ -1,0 +1,55 @@
+class Node:
+    def __init__(self, job_id, name, pages):
+        self.job_id = job_id
+        self.name = name
+        self.pages = pages
+        self.next = None
+
+front = rear = None
+
+def add_job(job_id, name, pages):
+    global front, rear
+
+    n = Node(job_id, name, pages)
+
+    if rear is None:
+        front = rear = n
+    else:
+        rear.next = n
+        rear = n
+
+def print_job():
+    global front, rear
+
+    if front is None:
+        print("Queue is empty")
+        return
+
+    print("Printed:", front.job_id, front.name, front.pages)
+
+    front = front.next
+
+    if front is None:
+        rear = None
+
+def display():
+    p = front
+    count = 0
+    pages = 0
+
+    while p:
+        print(p.job_id, p.name, p.pages)
+        count += 1
+        pages += p.pages
+        p = p.next
+
+    print("Pending Jobs:", count)
+    print("Total Pages:", pages)
+
+for _ in range(2):
+    job_id, name, pages = input("Enter job: ").split()
+    add_job(int(job_id), name, int(pages))
+
+display()
+print_job()
+display()

@@ -1,0 +1,52 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+front = rear = None
+
+def enqueue(x):
+    global front, rear
+
+    n = Node(x)
+
+    if rear is None:
+        front = rear = n
+    else:
+        rear.next = n
+        rear = n
+
+def dequeue():
+    global front, rear
+
+    if front is None:
+        print("Queue is empty")
+        return
+
+    print("Dequeued:", front.data)
+    front = front.next
+
+    if front is None:
+        rear = None
+
+def peek():
+    if front is None:
+        print("Queue is empty")
+    else:
+        print("Front:", front.data)
+
+def display():
+    p = front
+
+    while p:
+        print(p.data, end=" ")
+        p = p.next
+
+    print()
+
+for x in map(int, input("Enter values: ").split()):
+    enqueue(x)
+
+display()
+dequeue()
+display()

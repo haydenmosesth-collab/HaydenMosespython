@@ -1,0 +1,76 @@
+class Node:
+    def __init__(self, c, e):
+        self.c = c
+        self.e = e
+        self.next = None
+
+def add_term(head, c, e):
+    if c == 0:
+        return head
+
+    n = Node(c, e)
+
+    if head is None or e > head.e:
+        n.next = head
+        return n
+
+    p = head
+
+    while p.next and p.next.e > e:
+        p = p.next
+
+    if p.next and p.next.e == e:
+        p.next.c += c
+    else:
+        n.next = p.next
+        p.next = n
+
+    return head
+
+def read_poly():
+    head = None
+    n = int(input("Number of terms: "))
+
+    for _ in range(n):
+        c, e = map(int, input().split())
+        head = add_term(head, c, e)
+
+    return head
+
+def add(p, q):
+    r = None
+
+    while p:
+        r = add_term(r, p.c, p.e)
+        p = p.next
+
+    while q:
+        r = add_term(r, q.c, q.e)
+        q = q.next
+
+    return r
+
+def show(p):
+    a = []
+
+    while p:
+        if p.c:
+            a.append(f"{p.c}x^{p.e}" if p.e else str(p.c))
+        p = p.next
+
+    print(" + ".join(a) if a else "0")
+
+print("P1")
+p1 = read_poly()
+
+print("P2")
+p2 = read_poly()
+
+print("P1 =", end=" ")
+show(p1)
+
+print("P2 =", end=" ")
+show(p2)
+
+print("P1 + P2 =", end=" ")
+show(add(p1, p2))

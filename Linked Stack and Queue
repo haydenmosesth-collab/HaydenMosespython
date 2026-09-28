@@ -1,0 +1,78 @@
+class StackNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+def binary(n):
+    top = None
+
+    if n == 0:
+        return "0"
+
+    while n > 0:
+        node = StackNode(n % 2)
+        node.next = top
+        top = node
+        n //= 2
+
+    result = ""
+
+    while top:
+        result += str(top.data)
+        top = top.next
+
+    return result
+
+class QueueNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+front = rear = None
+
+def enqueue(x):
+    global front, rear
+
+    n = QueueNode(x)
+
+    if rear is None:
+        front = rear = n
+    else:
+        rear.next = n
+        rear = n
+
+def display():
+    p = front
+    result = []
+
+    while p:
+        result.append(p.data)
+        p = p.next
+
+    return result
+
+def reverse_queue():
+    global front, rear
+
+    stack = []
+
+    while front:
+        stack.append(front.data)
+        front = front.next
+
+    rear = None
+
+    while stack:
+        enqueue(stack.pop())
+
+n = int(input("Enter decimal number: "))
+print("Binary:", binary(n))
+
+for x in map(int, input("Enter queue values: ").split()):
+    enqueue(x)
+
+print("Before reversal:", display())
+
+reverse_queue()
+
+print("After reversal:", display())

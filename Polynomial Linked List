@@ -1,0 +1,63 @@
+class Node:
+    def __init__(self, coef, exp):
+        self.coef = coef
+        self.exp = exp
+        self.next = None
+
+def insert(head, coef, exp):
+    if coef == 0:
+        return head
+
+    if head is None or exp > head.exp:
+        n = Node(coef, exp)
+        n.next = head
+        return n
+
+    if exp == head.exp:
+        head.coef += coef
+        return head
+
+    p = head
+
+    while p.next and p.next.exp > exp:
+        p = p.next
+
+    if p.next and p.next.exp == exp:
+        p.next.coef += coef
+    else:
+        n = Node(coef, exp)
+        n.next = p.next
+        p.next = n
+
+    return head
+
+def display(head):
+    terms = []
+
+    while head:
+        c, e = head.coef, head.exp
+
+        if c != 0:
+            if e == 0:
+                term = str(abs(c))
+            elif e == 1:
+                term = str(abs(c)) + "x"
+            else:
+                term = str(abs(c)) + "x^" + str(e)
+
+            if not terms:
+                terms.append(("-" if c < 0 else "") + term)
+            else:
+                terms.append((" - " if c < 0 else " + ") + term)
+
+        head = head.next
+
+    print("".join(terms) if terms else "0")
+
+head = None
+
+for _ in range(4):
+    c, e = map(int, input("Coefficient exponent: ").split())
+    head = insert(head, c, e)
+
+display(head)

@@ -1,0 +1,74 @@
+class Node:
+    def __init__(self, c, e):
+        self.c = c
+        self.e = e
+        self.next = None
+
+def insert(head, c, e):
+    n = Node(c, e)
+
+    if head is None or e > head.e:
+        n.next = head
+        return n
+
+    p = head
+
+    while p.next and p.next.e > e:
+        p = p.next
+
+    n.next = p.next
+    p.next = n
+
+    return head
+
+def evaluate(p, x):
+    result = 0
+
+    while p:
+        result += p.c * (x ** p.e)
+        p = p.next
+
+    return result
+
+def derivative(p):
+    result = None
+
+    while p:
+        if p.e > 0:
+            result = insert(result, p.c * p.e, p.e - 1)
+        p = p.next
+
+    return result
+
+def show(p):
+    terms = []
+
+    while p:
+        if p.c:
+            terms.append(
+                str(p.c) if p.e == 0
+                else f"{p.c}x^{p.e}"
+            )
+        p = p.next
+
+    print(" + ".join(terms) if terms else "0")
+
+head = None
+
+for _ in range(3):
+    c, e = map(int, input().split())
+    head = insert(head, c, e)
+
+x = int(input("Enter x: "))
+
+print("Polynomial:", end=" ")
+show(head)
+
+print("Value:", evaluate(head, x))
+
+d = derivative(head)
+
+print("Derivative:", end=" ")
+show(d)
+
+print("Derivative value:", evaluate(d, x))

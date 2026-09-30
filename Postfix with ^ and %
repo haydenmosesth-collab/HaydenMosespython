@@ -1,0 +1,43 @@
+def evaluate(expr):
+    stack = []
+
+    for token in expr.split():
+
+        if token.lstrip("-").isdigit():
+            stack.append(int(token))
+            continue
+
+        if len(stack) < 2:
+            print("Invalid expression: insufficient operands")
+            return
+
+        b = stack.pop()
+        a = stack.pop()
+
+        if token in ('/', '%') and b == 0:
+            print("Division by zero")
+            return
+
+        if token == '+':
+            stack.append(a + b)
+        elif token == '-':
+            stack.append(a - b)
+        elif token == '*':
+            stack.append(a * b)
+        elif token == '/':
+            stack.append(a / b)
+        elif token == '%':
+            stack.append(a % b)
+        elif token == '^':
+            stack.append(a ** b)
+        else:
+            print("Invalid operator")
+            return
+
+    if len(stack) != 1:
+        print("Invalid expression: leftover operands")
+    else:
+        print("Result:", stack[0])
+
+expr = input("Enter postfix expression: ")
+evaluate(expr)

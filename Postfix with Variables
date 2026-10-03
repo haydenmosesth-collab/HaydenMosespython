@@ -1,0 +1,39 @@
+def evaluate(expr, values):
+    stack = []
+    print("\nSymbol\tAction\t\tStack")
+
+    for token in expr.split():
+
+        if token.isalpha():
+            value = values[token]
+            stack.append(value)
+            action = f"Push {value}"
+
+        else:
+            b = stack.pop()
+            a = stack.pop()
+
+            if token == '+':
+                stack.append(a + b)
+            elif token == '-':
+                stack.append(a - b)
+            elif token == '*':
+                stack.append(a * b)
+            elif token == '/':
+                stack.append(a / b)
+
+            action = "Apply " + token
+
+        print(token, "\t", action, "\t", stack)
+
+    return stack[-1]
+
+expr = input("Enter postfix expression: ")
+
+variables = sorted(set(ch for ch in expr if ch.isalpha()))
+values = {}
+
+for v in variables:
+    values[v] = int(input(f"Enter {v} = "))
+
+print("Final Result:", evaluate(expr, values))

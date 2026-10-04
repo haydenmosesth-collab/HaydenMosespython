@@ -1,0 +1,51 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+top = None
+
+def push(x):
+    global top
+    n = Node(x)
+    n.next = top
+    top = n
+
+def pop():
+    global top
+    x = top.data
+    top = top.next
+    return x
+
+def display():
+    p = top
+    a = []
+
+    while p:
+        a.append(p.data)
+        p = p.next
+
+    print("Stack:", *a)
+
+expr = input("Enter prefix expression: ").split()
+
+for token in reversed(expr):
+
+    if token.lstrip("-").isdigit():
+        push(int(token))
+    else:
+        a = pop()
+        b = pop()
+
+        if token == '+':
+            push(a + b)
+        elif token == '-':
+            push(a - b)
+        elif token == '*':
+            push(a * b)
+        elif token == '/':
+            push(a / b)
+
+    display()
+
+print("Result:", pop())

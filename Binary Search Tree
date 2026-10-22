@@ -1,0 +1,84 @@
+class Node:
+    """Represents a single node in the BST."""
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+
+
+class BinarySearchTree:
+    """Manages the operations of the Binary Search Tree."""
+    def __init__(self):
+        self.root = None
+
+    def insert(self, key):
+        """Public method to insert a key."""
+        self.root = self._insert_recursive(self.root, key)
+
+    def _insert_recursive(self, root, key):
+        """Helper method to handle insertion recursively."""
+        # If the current subtree is empty, return a new node
+        if root is None:
+            return Node(key)
+
+        # Otherwise, recur down the tree
+        if key < root.data:
+            root.left = self._insert_recursive(root.left, key)
+        elif key > root.data:
+            root.right = self._insert_recursive(root.right, key)
+            
+        # If the key already exists, we do nothing (no duplicates allowed)
+        return root
+
+    def search(self, key):
+        """Public method to search for a key. Returns True if found."""
+        return self._search_recursive(self.root, key)
+
+    def _search_recursive(self, root, key):
+        """Helper method to handle searching recursively."""
+        # Base Cases: root is null or key is present at root
+        if root is None:
+            return False
+        if root.data == key:
+            return True
+
+        # Key is smaller than root's data
+        if key < root.data:
+            return self._search_recursive(root.left, key)
+
+        # Key is greater than root's data
+        return self._search_recursive(root.right, key)
+
+    def inorder(self):
+        """Public method to start in-order traversal."""
+        elements = []
+        self._inorder_recursive(self.root, elements)
+        return elements
+
+    def _inorder_recursive(self, root, elements):
+        """Helper method to collect elements in sorted order."""
+        if root:
+            self._inorder_recursive(root.left, elements)
+            elements.append(root.data)
+            self._inorder_recursive(root.right, elements)
+
+
+# --- Driver Code to Test the BST ---
+if __name__ == "__main__":
+    bst = BinarySearchTree()
+
+    # 1. Inserting nodes
+    nodes_to_insert = [50, 30, 20, 40, 70, 60, 80]
+    for node in nodes_to_insert:
+        bst.insert(node)
+
+    # 2. Printing the sorted order
+    sorted_tree = bst.inorder()
+    print("In-order traversal (Sorted order):", sorted_tree)
+
+    # 3. Searching for a key
+    search_key = 60
+    if bst.search(search_key):
+        print(f"Element {search_key} found in the BST.")
+    else:
+        print(f"Element {search_key} not found in the BST.")

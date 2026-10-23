@@ -1,0 +1,122 @@
+class Node:
+    """Represents a node in the AVL Tree."""
+    def __init__(self, key):
+        self.data = key
+        self.left = None
+        self.right = None
+        self.height = 1  # New nodes are initially added at leaf level (height = 1)
+
+
+class AVLTree:
+    """Manages the operations of a self-balancing AVL Tree."""
+    
+    def get_height(self, node):
+        """Helper to safely get the height of a node."""
+        if not node:
+            return 0
+        return node.height
+
+    def get_balance(self, node):
+        """Calculate the balance factor of a node."""
+        if not node:
+            return 0
+        return self.get_height(node.left) - self.get_height(node.right)
+
+    def right_rotate(self, y):
+        """Perform a right rotation around node y."""
+        x = y.left
+        T2 = x.right
+
+        # Perform rotation
+        x.right = y
+        y.left = T2
+
+        # Update heights
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
+
+        # Return new root
+        return x
+
+    def left_rotate(self, x):
+        """Perform a left rotation around node x."""
+        y = x.right
+        T2 = y.left
+
+        # Perform rotation
+        y.left = x
+        x.right = T2
+
+        # Update heights
+        x.height = 1 + max(self.get_height(x.left), self.get_height(x.right))
+        y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
+
+        # Return new root
+        return y
+
+    def insert(self, root, key):
+        """Insert a key into the subtree rooted with node and returns the new root."""
+        # 1. Perform the normal BST insertion
+        if not root:
+            return Node(key)
+        
+        if key < root.data:
+            root.left = self.insert(root.left, key)
+        elif key > root.data:
+            root.right = self.insert(root.right, key)
+        else:
+            return root  # Duplicate keys are not allowed in AVL
+
+        # 2. Update the height of the ancestor node
+        root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
+
+        # 3. Get the balance factor to check if it became unbalanced
+        balance = self.get_balance(root)
+
+        # 4. If unbalanced, handle the 4 scenarios:
+
+        # Case 1 - Left Left (LL)
+        if balance > 1 and key < root.left.data:
+            return self.right_rotate(root)
+
+        # Case 2 - Right Right (RR)
+        if balance < -1 and key > root.right.data:
+            return self.left_rotate(root)
+
+        # Case 3 - Left Right (LR)
+        if balance > 1 and key > root.left.data:
+            root.left = self.left_rotate(root.left)
+            return self.right_rotate(root)
+
+        # Case 4 - Right Left (RL)
+        if balance < -1 and key < root.right.data:
+            root.right = self.right_rotate(root.right)
+            return self.left_rotate(root)
+
+        return root
+
+    def inorder(self, root, elements=None):
+        """Perform in-order traversal to fetch elements in sorted order."""
+        if elements is None:
+            elements = []
+        if root:
+            self.inorder(root.left, elements)
+            elements.append(root.data)
+            self.inorder(root.right, elements)
+        return elements
+
+
+# --- Driver Code to Test the AVL Tree ---
+if __name__ == "__main__":
+    tree = AVLTree()
+    root = None
+
+    # Constructing a tree that would normally result in a skewed / unbalanced line
+    # Inserting sorted numbers: 10 -> 20 -> 30 -> 40 -> 50 -> 25
+    keys = [10, 20, 30, 40, 50, 25]
+    
+    for key in keys:
+        root = tree.insert(root, key)
+
+    print("In-order traversal of the balanced AVL tree:", tree.inorder(root))
+    print("Root element of the tree is now:", root.data)

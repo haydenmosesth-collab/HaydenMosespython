@@ -1,0 +1,7 @@
+purchaseAmount = int(input())
+payableAmount = purchaseAmount
+
+if purchaseAmount > 2000:
+    payableAmount -= (purchaseAmount/10)
+    
+print (int(payableAmount))

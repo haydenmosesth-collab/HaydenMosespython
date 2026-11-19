@@ -1,0 +1,1 @@
+print("senior" if int(input().strip()) >= 60 else "notsenior")

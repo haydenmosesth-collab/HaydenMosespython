@@ -1,0 +1,11 @@
+A = int(input())
+B = int(input())
+C = int(input())
+largest = A
+if B > largest:
+    largest = B
+
+if C > largest:
+    largest = C
+    
+print (largest)

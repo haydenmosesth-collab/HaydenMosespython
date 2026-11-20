@@ -1,0 +1,6 @@
+N = int(input())
+total = 0
+for ctr in range(N):
+    currnum = int(input())
+    total+=currnum
+print (total)

@@ -1,0 +1,25 @@
+A = int(input())
+B = int(input())
+fromctr = A
+toctr = B
+oddprint = 1
+if A%2 == 0 and B%2 == 0:
+    oddprint = 0
+    
+while fromctr <= B or toctr >= A:
+    if oddprint:
+        while(fromctr%2 != 1):
+            fromctr+=1
+        if fromctr <= B:
+            print (fromctr, end=" ")
+        oddprint = 0
+        
+    if not oddprint:
+        while(toctr%2 != 0):
+            toctr-=1
+        
+        if toctr >= A:
+            print (toctr, end=" ")
+        oddprint=1
+    fromctr+=1
+    toctr-=1

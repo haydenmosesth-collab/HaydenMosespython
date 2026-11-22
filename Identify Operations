@@ -1,0 +1,20 @@
+import re
+
+expr = input().strip()
+
+# Match <number A><operator><number B>=<number C>
+match = re.fullmatch(r"([+-]?\d+)([+\-*/])([+-]?\d+)=([+-]?\d+)", expr)
+
+if match:
+  a = int(match.group(1))
+  b = int(match.group(3))
+  c = int(match.group(4))
+
+  if a + b == c:
+    print("+")
+  elif a - b == c:
+    print("-")
+  elif a * b == c:
+    print("*")
+  elif b != 0 and a / b == c:
+    print("/")

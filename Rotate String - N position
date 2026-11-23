@@ -1,0 +1,9 @@
+s = input().strip()
+n = int(input().strip())
+
+# Normalize n in case n equals length of s
+n = n % len(s)
+
+# Forward (right) rotation by n positions
+rotated = s[-n:] + s[:-n] if n > 0 else s
+print(rotated)

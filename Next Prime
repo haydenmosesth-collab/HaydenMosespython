@@ -1,0 +1,21 @@
+import math
+
+def is_prime(num: int) -> bool:
+    if num < 2:
+        return False
+    if num == 2:
+        return True
+    if num % 2 == 0:
+        return False
+    limit = math.isqrt(num)
+    for divisor in range(3, limit + 1, 2):
+        if num % divisor == 0:
+            return False
+    return True
+
+
+n = int(input().strip())
+candidate = n + 1
+while not is_prime(candidate):
+    candidate += 1
+print(candidate)

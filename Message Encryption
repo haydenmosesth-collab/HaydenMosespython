@@ -1,0 +1,19 @@
+M = input().strip()
+C = int(input().strip())
+
+rows = len(M) // C
+grid = []
+
+for r in range(rows):
+    chunk = M[r * C : (r + 1) * C]
+    if r % 2 == 1:
+        chunk = chunk[::-1]
+    grid.append(chunk)
+
+# Read column by column to reconstruct the original message
+result = []
+for c in range(C):
+    for r in range(rows):
+        result.append(grid[r][c])
+
+print("".join(result))

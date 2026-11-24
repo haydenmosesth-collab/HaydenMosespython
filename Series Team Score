@@ -1,0 +1,16 @@
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+
+score_a = 0
+score_b = 0
+
+for goals_a, goals_b in zip(a, b):
+    if goals_a > goals_b:
+        score_a += 3
+    elif goals_b > goals_a:
+        score_b += 3
+    else:
+        score_a += 1
+        score_b += 1
+
+print(score_a, score_b)

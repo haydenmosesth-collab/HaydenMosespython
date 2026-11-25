@@ -1,0 +1,7 @@
+import math
+
+arr = list(map(int, input().split()))
+total_product = math.prod(arr)
+
+result = [total_product // x for x in arr]
+print(*result)

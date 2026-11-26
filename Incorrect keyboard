@@ -1,0 +1,8 @@
+w = input().strip()
+
+ans = 1
+for ch in w:
+    if ch in ('T', 'D', 'L', 'F'):
+        ans *= 2
+
+print(ans)

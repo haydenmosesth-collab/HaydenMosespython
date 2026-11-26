@@ -1,0 +1,15 @@
+m = input().rstrip('\n')
+x = int(input())
+y = int(input())
+
+result = []
+for ch in m:
+    if 'a' <= ch <= 'z':
+        shifted = chr((ord(ch) - ord('a') + x) % 26 + ord('a'))
+        result.append(shifted)
+    elif '0' <= ch <= '9':
+        result.append(str(int(ch) + y))
+    else:
+        result.append(ch)
+
+print("".join(result))

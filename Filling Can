@@ -1,0 +1,35 @@
+from collections import deque
+
+X = int(input())
+Y = int(input())
+Z = int(input())
+
+visited = {(0, 0)}
+queue = deque([(0, 0, 0)])
+answer = -1
+
+while queue:
+    a, b, steps = queue.popleft()
+
+    if a == Z or b == Z:
+        answer = steps
+        break
+
+    nxt = [(0, b), (a, 0), (X, b), (a, Y)]
+
+    if X >= Y:
+        t = min(a, Y - b)
+        nxt.append((a - t, b + t))
+    else:
+        t = min(b, X - a)
+        nxt.append((a + t, b - t))
+
+    for s in nxt:
+        if s not in visited:
+            visited.add(s)
+            queue.append((s[0], s[1], steps + 1))
+
+if answer > X + Y:
+    answer = -1
+
+print(answer)
